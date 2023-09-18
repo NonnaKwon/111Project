@@ -7,26 +7,22 @@ public class UI_GameScene : UI_Scene
     #region Enum
     enum GameObjects
     {
-        JumpButton,
-        AttackButton,
-        ShieldButton,
-        Heart1,
-        Heart2,
-        Heart3
-    }
-
-    
-    enum Texts
-    {
+        Left,
+        Attack,
+        Right,
+        OpponentHP,
+        MyHP
     }
     #endregion
 
-    int life;
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
         BindObject(typeof(GameObjects));
+        GetObject((int)GameObjects.Left).BindEvent(() => Managers.Game.Player.CurrentDirection = Define.Direction.Left);
+        GetObject((int)GameObjects.Right).BindEvent(() => Managers.Game.Player.CurrentDirection = Define.Direction.Right);
+        GetObject((int)GameObjects.Attack).BindEvent(() => Managers.Game.Player.Attack());
         return true;
     }
 

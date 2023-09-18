@@ -6,8 +6,12 @@ using static Define;
 
 public class GameManagerEx
 {
+    public PlayerController Player { get; set; }
+    public PlayerController Enemy { get; set; }
+
     public event Action<GameState> OnGameStateChange;
     private GameState CurrentState;
+
 
     public void Clear()
     {
@@ -38,8 +42,6 @@ public class GameManagerEx
             case GameState.Ready:
                 break;
             case GameState.LoadingBackgrounds:
-                break;
-            case GameState.LoadingWave:
                 break;
             case GameState.Play:
                 break;

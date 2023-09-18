@@ -70,8 +70,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.PlayerList.Length == 2)
         {
             _room.Player2.text = "Player2 : " + PhotonNetwork.PlayerList[1].NickName;
-            _room.StartBtn.BindEvent(() => PhotonNetwork.LoadLevel("GameScene"));
         }
+            _room.StartBtn.BindEvent(() => PhotonNetwork.LoadLevel("GameScene"));
     }
 
 

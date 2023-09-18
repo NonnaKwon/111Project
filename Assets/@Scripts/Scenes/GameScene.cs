@@ -1,11 +1,6 @@
-﻿using Data;
-using DG.Tweening.Plugins.Core.PathCore;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using static Define;
 
 public class GameScene : BaseScene
@@ -60,12 +55,15 @@ public class GameScene : BaseScene
         UI_Loading loading = Managers.UI.ShowPopupUI<UI_Loading>();
         yield return new WaitForSecondsRealtime(0.5f);
 
-
         UIGameScene = Managers.UI.ShowSceneUI<UI_GameScene>();
+        Managers.Game.Player = Managers.Resource.Instantiate("Player").GetOrAddComponent<PlayerController>();
+        Managers.Game.Enemy = Managers.Resource.Instantiate("Enemy").GetOrAddComponent<PlayerController>();
+        Managers.Resource.Instantiate("Background").GetComponent<SpriteRenderer>().sortingOrder = (int)Define.SortOrder.Backgound;
+        Managers.Resource.Instantiate("Collider");
 
         yield return new WaitForSecondsRealtime(0.5f);
         Managers.UI.ClosePopupUI(loading);
-        Managers.Game.SetGameState(GameState.LoadingWave);
+        Managers.Game.SetGameState(GameState.Play);
     }
 
 

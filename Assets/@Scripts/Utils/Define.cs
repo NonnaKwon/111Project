@@ -7,10 +7,9 @@ using static Util;
 public class Define
 {
     public static readonly Dictionary<Type, Array> _enumDict = new Dictionary<Type, Array>();
+    public static float SPEED = 0.1f;
+    public static float BULLET_SPEED = 0.2f;
 
-    public static float JUMP_FORCE = 700.0f;
-    public static float SHIELD_FORCE = 150.0f;
-    public static float MONSTER_SPEED = 0.1f;
     #region Enum
 
     public enum Scene
@@ -40,20 +39,10 @@ public class Define
         EndDrag,
     }
 
-    public enum Tags
-    {
-        Ground,
-        Monster,
-        Weapon,
-        Shield,
-        Player
-    }
-
     public enum GameState
     {
         Ready,
         LoadingBackgrounds,
-        LoadingWave,
         Play,
         Die,
         Result
@@ -61,7 +50,15 @@ public class Define
 
     public enum SortOrder
     {
-        LoadingCanvas = 10
+        LoadingCanvas = 10,
+        Backgound = -1
+    }
+
+    public enum Direction
+    {
+        Left,
+        Right,
+        Stop
     }
     #endregion
 
