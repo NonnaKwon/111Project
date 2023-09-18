@@ -8,6 +8,7 @@ public class GameManagerEx
 {
     public PlayerController Player { get; set; }
     public PlayerController Enemy { get; set; }
+    public string GameResult { get; set; }
 
     public event Action<GameState> OnGameStateChange;
     private GameState CurrentState;
@@ -48,6 +49,7 @@ public class GameManagerEx
             case GameState.Die:
                 break;
             case GameState.Result:
+
                 break;
         }
     }

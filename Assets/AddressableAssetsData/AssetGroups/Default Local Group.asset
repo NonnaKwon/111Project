@@ -45,19 +45,28 @@ MonoBehaviour:
   - m_GUID: 2cea0dfd70de22441b93b42d882c816b
     m_Address: Enemy
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Preload
   - m_GUID: 70f551e8ef4e28c40a3963f038841f25
     m_Address: Player
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Preload
   - m_GUID: 849a976ed1fb71a4c9ac32a063409c59
     m_Address: Background
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Preload
   - m_GUID: c6ea9402a7e82d84bbdf70d1749bf608
     m_Address: Collider
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 951908457b3eb134db1b067756df99cb
+    m_Address: Bullet
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 160b55112b3d9c14e8f3614f46ca6258, type: 2}
   m_SchemaSet:

@@ -9,6 +9,7 @@ public class Define
     public static readonly Dictionary<Type, Array> _enumDict = new Dictionary<Type, Array>();
     public static float SPEED = 0.2f;
     public static float BULLET_SPEED = 0.3f;
+    public static float COOL_TIME = 1f;
 
     #region Enum
 

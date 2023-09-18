@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2983336951495844580}
   - component: {fileID: 4570721256855649922}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Loading
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,9 +147,9 @@ GameObject:
   - component: {fileID: 7404211594097656815}
   - component: {fileID: 7404211594097656816}
   - component: {fileID: 7404211594097656817}
-  - component: {fileID: 5084077081891856077}
+  - component: {fileID: -551850005805498208}
   m_Layer: 5
-  m_Name: UI_Loading
+  m_Name: UI_GameResult
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5084077081891856077
+--- !u!114 &-551850005805498208
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7404211594097656819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e85807bc76a0da04ca23a98b77a500f3, type: 3}
+  m_Script: {fileID: 11500000, guid: b995414ed2bdaea449351c7156ce5ab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7404211594160744217

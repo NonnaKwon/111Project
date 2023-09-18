@@ -5,7 +5,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Define.Direction CurrentDirection { get; set; }
-    int _hit;
+    public GameObject HP_UI;
+
+    Rigidbody2D _rigidbody;
+    int _damage;
     void Awake()
     {
         init();
@@ -14,21 +17,39 @@ public class PlayerController : MonoBehaviour
     private void init()
     {
         CurrentDirection = Define.Direction.Stop;
-        _hit = 0;
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _damage = 0;
     }
 
-    private void Update()
+    //private void Update()
+    //{
+    //    switch (CurrentDirection)
+    //    {
+    //        case Define.Direction.Left:
+
+    //            transform.Translate(Vector3.left * Define.SPEED);
+    //            break;
+    //        case Define.Direction.Right:
+    //            transform.Translate(Vector3.right * Define.SPEED);
+    //            break;
+    //        case Define.Direction.Stop:
+    //            transform.Translate(Vector3.zero);
+    //            break;
+    //    }
+    //}
+
+    private void FixedUpdate()
     {
         switch (CurrentDirection)
         {
             case Define.Direction.Left:
-                transform.Translate(Vector3.left * Define.SPEED);
+                _rigidbody.MovePosition(_rigidbody.position + Vector2.left * Define.SPEED);
                 break;
             case Define.Direction.Right:
-                transform.Translate(Vector3.right * Define.SPEED);
+                _rigidbody.MovePosition(_rigidbody.position + Vector2.right * Define.SPEED);
                 break;
             case Define.Direction.Stop:
-                transform.Translate(Vector3.zero);
+                _rigidbody.MovePosition(_rigidbody.position);
                 break;
         }
     }
@@ -40,14 +61,22 @@ public class PlayerController : MonoBehaviour
         go.transform.position = transform.position;
     }
 
+
     public void decreaseHP()
     {
-        Debug.Log("HP : " + (3 - _hit).ToString());
+        HP_UI.transform.GetChild(_damage).gameObject.SetActive(false);
+        _damage++;
+        if(_damage >= 3)
+        {
+            Debug.Log("Game over");
+            Managers.Game.SetGameState(Define.GameState.Result);
+            Managers.Game.GameResult = gameObject.name + "Lose";
+        }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Ãæµ¹");
         CurrentDirection = Define.Direction.Stop;
     }
 

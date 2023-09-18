@@ -46,6 +46,7 @@ public class GameScene : BaseScene
             case GameState.Die:
                 break;
             case GameState.Result:
+                Managers.UI.ShowPopupUI<UI_GameResult>();
                 break;
         }
     }
@@ -55,11 +56,11 @@ public class GameScene : BaseScene
         UI_Loading loading = Managers.UI.ShowPopupUI<UI_Loading>();
         yield return new WaitForSecondsRealtime(0.5f);
 
-        UIGameScene = Managers.UI.ShowSceneUI<UI_GameScene>();
         Managers.Game.Player = Managers.Resource.Instantiate("Player").GetOrAddComponent<PlayerController>();
         Managers.Game.Enemy = Managers.Resource.Instantiate("Enemy").GetOrAddComponent<PlayerController>();
         Managers.Resource.Instantiate("Background").GetComponent<SpriteRenderer>().sortingOrder = (int)Define.SortOrder.Backgound;
         Managers.Resource.Instantiate("Collider");
+        UIGameScene = Managers.UI.ShowSceneUI<UI_GameScene>();
 
         yield return new WaitForSecondsRealtime(0.5f);
         Managers.UI.ClosePopupUI(loading);

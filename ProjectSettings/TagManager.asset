@@ -9,14 +9,15 @@ TagManager:
   - MapBoundary
   - MagicField
   - Ground
+  - Bullet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - TEST
+  - Bullet
   - 
   - 
   - 
