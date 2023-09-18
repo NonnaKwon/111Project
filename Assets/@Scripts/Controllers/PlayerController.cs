@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public Define.Direction CurrentDirection { get; set; }
     public GameObject HP_UI;
 
+    GameObject[] _hearts;
     Rigidbody2D _rigidbody;
     int _damage;
     void Awake()
@@ -64,13 +65,23 @@ public class PlayerController : MonoBehaviour
 
     public void decreaseHP()
     {
-        HP_UI.transform.GetChild(_damage).gameObject.SetActive(false);
+        if(_hearts == null)
+        {
+            _hearts =  new GameObject[3];
+            GameObject grid = HP_UI.transform.GetChild(0).gameObject;
+            for (int i = 0; i < 3; i++)
+            {
+                _hearts[i] = grid.transform.GetChild(i).gameObject;
+            }
+        }
+
+        _hearts[_damage].SetActive(false);
         _damage++;
         if(_damage >= 3)
         {
             Debug.Log("Game over");
-            Managers.Game.SetGameState(Define.GameState.Result);
             Managers.Game.GameResult = gameObject.name + "Lose";
+            Managers.Game.SetGameState(Define.GameState.Result);
         }
     }
 
