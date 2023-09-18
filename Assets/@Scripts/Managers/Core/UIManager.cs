@@ -139,6 +139,7 @@ public class UIManager
             return;
         }
         Managers.Sound.PlayPopupClose();
+        Debug.Log(_popupStack.Count);
         ClosePopupUI();
     }
 

@@ -52,6 +52,7 @@ public class Managers : MonoBehaviour
 
     public static void Clear()
     {
+        Debug.Log("클리어");
         Sound.Clear();
         Scene.Clear();
         UI.Clear();

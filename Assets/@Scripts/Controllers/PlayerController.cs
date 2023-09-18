@@ -36,7 +36,8 @@ public class PlayerController : MonoBehaviour
     public void Attack()
     {
         Debug.Log("АјАн");
-        Managers.Resource.Instantiate("Bullet", gameObject.transform, true);
+        GameObject go = Managers.Resource.Instantiate("Bullet", gameObject.transform, true);
+        go.transform.position = transform.position;
     }
 
     public void decreaseHP()
