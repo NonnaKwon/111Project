@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,7 +25,12 @@ public class GameManagerEx
     public void StartGame()
     {
         Debug.Log("Start Game()");
-        Managers.Scene.LoadScene(Define.Scene.GameScene);
+        Debug.Log(PhotonNetwork.IsMasterClient);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Managers.Scene.LoadScene(Define.Scene.GameScene);
+   
+        }
     }
 
 

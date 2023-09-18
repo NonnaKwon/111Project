@@ -8,6 +8,8 @@ using static Define;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
+    private string gameVersion = "1";
+
     UI_LobbyScene _lobby;
     UI_JoinRoom _room;
     bool _connect;
@@ -18,12 +20,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void init()
     {
-        Screen.SetResolution(960, 540, false);
+        Screen.SetResolution(540, 960, false);
         UnityEngine.Object.DontDestroyOnLoad(gameObject);
         _lobby = Managers.UI.ShowSceneUI<UI_LobbyScene>();
         _lobby.JoinBtn.BindEvent(() => PhotonNetwork.ConnectUsingSettings());
         _lobby.PlayerName.text = "Player";
         _connect = true;
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
 
@@ -67,15 +70,31 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void RoomUpdate()
     {
         _room.Player1.text = "Player1 : "+PhotonNetwork.PlayerList[0].NickName;
-        if (PhotonNetwork.PlayerList.Length == 2)
+        if (PhotonNetwork.PlayerList.Length == 2) //플레이어 수 2명일때 버튼 활성화
         {
              _room.Player2.text = "Player2 : " + PhotonNetwork.PlayerList[1].NickName;
+
+            if (PhotonNetwork.IsMasterClient)
+                _room.StartBtn.BindEvent(StartGame);
         }
-            _room.StartBtn.BindEvent(() => Managers.Game.StartGame());
+    }
+
+    public void StartGame()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Managers.Clear();
+            PhotonNetwork.LoadLevel(GetSceneName(Define.Scene.GameScene));
+        }
+    }
+
+    string GetSceneName(Define.Scene type)
+    {
+        string name = System.Enum.GetName(typeof(Define.Scene), type);
+        return name;
     }
 
 
-   
     public override void OnCreateRoomFailed(short returnCode,string message)
     {
         Debug.Log("방 만들기 실패");
