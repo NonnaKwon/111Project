@@ -13,11 +13,6 @@ public class LobbyScene : BaseScene
         base.Init();
 
         SceneType = Define.Scene.LobbyScene;
-
-        Managers.UI.ShowSceneUI<UI_LobbyScene>();
-        Screen.sleepTimeout = SleepTimeout.SystemSetting; //이게뭔지물어보기
-
-        //Managers.Sound.Play(Define.Sound.Bgm, "Bgm_Lobby");
     }
 
     public override void Clear()

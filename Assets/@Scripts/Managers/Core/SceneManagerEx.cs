@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine.SceneManagement;
 
 public class SceneManagerEx
@@ -10,26 +12,7 @@ public class SceneManagerEx
     public void LoadScene(Define.Scene type, Transform parents = null)
     {
         Managers.Clear();
-        SceneManager.LoadScene(GetSceneName(type));
-
-        //switch (CurrentScene.SceneType)
-        //{
-        //    case Define.Scene.TitleScene:
-        //        Managers.Clear();
-        //        SceneManager.LoadScene(GetSceneName(type));
-        //        break;
-        //    case Define.Scene.GameScene:
-        //        Managers.Resource.Destroy(Managers.UI.SceneUI.gameObject);
-        //        Managers.Clear();
-        //        SceneManager.LoadScene(GetSceneName(type));
-        //        break;
-        //    case Define.Scene.LobbyScene:
-        //        Managers.Resource.Destroy(Managers.UI.SceneUI.gameObject);
-        //        Managers.Clear();
-        //        SceneManager.LoadScene(GetSceneName(type));
-        //        break;
-        //}
-
+        PhotonNetwork.LoadLevel(GetSceneName(type));
     }
 
     string GetSceneName(Define.Scene type)

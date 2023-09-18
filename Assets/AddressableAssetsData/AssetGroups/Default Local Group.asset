@@ -22,11 +22,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
-  - m_GUID: 396f640986e0c0d4c84ef40ce0633f3d
-    m_Address: SkillData
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
   - m_GUID: af71878e1212e0f4e8cddd699c4d28c4
     m_Address: UI_LobbyScene
     m_ReadOnly: 0
@@ -37,28 +32,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
-  - m_GUID: 9a5430011a1d1e241aeb384c507c05e3
-    m_Address: Player
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-  - m_GUID: 15b8d5b0dd9dd4d458a9711c121883ff
-    m_Address: TmpStage
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-  - m_GUID: 16e6799f5b0e26240ac979de6833845b
-    m_Address: Monster
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
   - m_GUID: 9839bfa59f57c7443a0286db463fe9de
     m_Address: UI_Loading
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
-  - m_GUID: f28894ea164b3ef4bbb48ec5dfab28b4
-    m_Address: UI_WaveInfo
+  - m_GUID: c013e5b0e94229240b7dae4c2756663a
+    m_Address: UI_JoinRoom
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
