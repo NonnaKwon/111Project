@@ -67,13 +67,12 @@ public class GameScene : BaseScene, IPunObservable
 
         yield return new WaitForSecondsRealtime(0.5f);
 
+        if (!PhotonNetwork.IsMasterClient)
+            _compeleteLoad = true;
+        yield return null;
 
-        while (!_compeleteLoad && Managers.Game.CurrentState != GameState.Play) //다른 컴이 로드가 끝날때까지 대기.
-        {
-            if (!PhotonNetwork.IsMasterClient)
-                _compeleteLoad = true;
-            yield return null;
-        }
+        while (!_compeleteLoad)
+            //다른 컴이 로드가 끝날때까지 대기.
 
         Managers.Game.SetGameState(GameState.Play);
     }
@@ -110,9 +109,7 @@ public class GameScene : BaseScene, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        Debug.Log("call" + stream.ToString());
         Debug.Log(info.ToString());
-
         if (stream.IsWriting)
         {
             stream.SendNext(_compeleteLoad);
