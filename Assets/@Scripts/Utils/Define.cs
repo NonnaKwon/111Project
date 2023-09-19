@@ -63,6 +63,14 @@ public class Define
         Right,
         Stop
     }
+
+    public enum Layer
+    {
+        Default = 0,
+        Player = 3,
+        Bullet = 6
+    }
+
     #endregion
     
 

@@ -70,7 +70,7 @@ public class GameScene : BaseScene, IPunObservable
         Managers.Resource.Instantiate("Collider");
 
         Time.timeScale = 1;
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(1f);
         Time.timeScale = 0;
 
         PlayerController[] pc;
@@ -90,6 +90,7 @@ public class GameScene : BaseScene, IPunObservable
             {
                 Managers.Game.Enemy = player;
                 player.gameObject.name = "Enemy";
+                player.gameObject.layer = (int)Define.Layer.Default;
                 player.transform.position = new Vector3(0, Define.ENEMY_Y, 0);
 
                 SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
