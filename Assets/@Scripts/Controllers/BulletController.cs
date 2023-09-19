@@ -23,8 +23,6 @@ public class BulletController : MonoBehaviour
         if(pc != null)
         {
             pc.decreaseHP();
-            Debug.Log("공격성공");
-            Debug.Log(pc.gameObject.name);
         }
 
         Managers.Resource.Destroy(this.gameObject);

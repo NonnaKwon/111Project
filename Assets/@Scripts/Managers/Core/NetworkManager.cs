@@ -5,6 +5,9 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 using static Define;
+using ExitGames.Client.Photon;
+using Photon.Pun.Demo.PunBasics;
+using System.Runtime.InteropServices;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -33,7 +36,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("Success Conneted");
+        Debug.Log("Success Conneted!");
         PhotonNetwork.LocalPlayer.NickName = _lobby.PlayerName.text;
         PhotonNetwork.JoinOrCreateRoom("방", new RoomOptions { MaxPlayers = 2 }, null);
     }
@@ -69,23 +72,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void RoomUpdate()
     {
-        _room.Player1.text = "Player1 : "+PhotonNetwork.PlayerList[0].NickName;
+        _room.Player1.text = "Player1 : "+PhotonNetwork.PlayerList[0].NickName+"(방장)";
         if (PhotonNetwork.PlayerList.Length == 2) //플레이어 수 2명일때 버튼 활성화
         {
              _room.Player2.text = "Player2 : " + PhotonNetwork.PlayerList[1].NickName;
-
-            if (PhotonNetwork.IsMasterClient)
-                _room.StartBtn.BindEvent(StartGame);
+             _room.StartBtn.BindEvent(Managers.Game.StartGame);
         }
     }
 
     public void StartGame()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if(PhotonNetwork.IsMasterClient)
         {
             Managers.Clear();
             PhotonNetwork.LoadLevel(GetSceneName(Define.Scene.GameScene));
         }
+
     }
 
     string GetSceneName(Define.Scene type)
@@ -108,6 +110,34 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("방 참가 실패");
         Debug.Log(message);
         Debug.Log(returnCode);
+    }
+
+    public static void SyncInGameManagerViewID()
+    {
+        if (PhotonNetwork.IsMasterClient == false)
+        {
+            throw new System.Exception("Only Master CLient can send sync manager view ID event.");
+        }
+
+        PhotonView targetView = GameObject.FindObjectOfType<Managers>().GetComponent<PhotonView>();
+
+        if (PhotonNetwork.AllocateViewID(targetView))
+        {
+            object content = new object[] {
+            targetView.ViewID,
+        };
+
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions()
+            {
+                Receivers = ReceiverGroup.Others,
+            };
+
+            PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendReliable);
+        }
+        else
+        {
+            throw new System.Exception("Failed allocate View ID");
+        }
     }
 
 

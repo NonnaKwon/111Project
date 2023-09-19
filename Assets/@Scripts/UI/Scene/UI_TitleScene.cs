@@ -35,7 +35,7 @@ public class UI_TitleScene : UI_Scene
         BindObject(typeof(GameObjects));
 
         GetObject((int)GameObjects.StartButton).BindEvent(() => {
-            Managers.Scene.LoadScene(Define.Scene.LobbyScene);
+            Managers.Scene.SimpleLoadScene(Define.Scene.LobbyScene);
         });
 
         //BindButton(typeof(Buttons));

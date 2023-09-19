@@ -25,7 +25,6 @@ public class GameManagerEx
     public void StartGame()
     {
         Debug.Log("Start Game()");
-        Debug.Log(PhotonNetwork.IsMasterClient);
         if (PhotonNetwork.IsMasterClient)
         {
             Managers.Scene.LoadScene(Define.Scene.GameScene);

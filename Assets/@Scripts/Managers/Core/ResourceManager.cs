@@ -59,7 +59,7 @@ public class ResourceManager
 
         if (Managers.Pool.Push(go))
             return;
-
+        Debug.Log(go);
         Object.Destroy(go);
     }
 

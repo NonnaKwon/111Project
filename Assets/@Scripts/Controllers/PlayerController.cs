@@ -1,8 +1,9 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPun
 {
     public Define.Direction CurrentDirection { get; set; }
     public GameObject HP_UI;
@@ -22,22 +23,6 @@ public class PlayerController : MonoBehaviour
         _damage = 0;
     }
 
-    //private void Update()
-    //{
-    //    switch (CurrentDirection)
-    //    {
-    //        case Define.Direction.Left:
-
-    //            transform.Translate(Vector3.left * Define.SPEED);
-    //            break;
-    //        case Define.Direction.Right:
-    //            transform.Translate(Vector3.right * Define.SPEED);
-    //            break;
-    //        case Define.Direction.Stop:
-    //            transform.Translate(Vector3.zero);
-    //            break;
-    //    }
-    //}
 
     private void FixedUpdate()
     {
