@@ -8,10 +8,13 @@ public class GameScene : BaseScene, IPunObservable
 {
     UI_GameScene UIGameScene;
     PhotonView _pv;
-    bool _compeleteLoad;
+    int _compeleteLoad;
+    bool _compelete;
+
     private void Start()
     {
-        _compeleteLoad = false;
+        _compeleteLoad = 0;
+        _compelete = false;
         Managers.Game.SetGameState(GameState.LoadingBackgrounds);
     }
 
@@ -31,6 +34,7 @@ public class GameScene : BaseScene, IPunObservable
         SceneType = Define.Scene.GameScene;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         Managers.Game.OnGameStateChange += OnGameStateChange;
+        _pv = GetComponent<PhotonView>();
     }
 
 
@@ -45,7 +49,7 @@ public class GameScene : BaseScene, IPunObservable
                 CoroutineManager.StartCoroutine(LoadStage());
                 break;
             case GameState.Play:
-                NetworkLoad();
+                //CoroutineManager.StartCoroutine(NetworkLoad());
                 break;
             case GameState.Die:
                 break;
@@ -65,21 +69,19 @@ public class GameScene : BaseScene, IPunObservable
         Managers.Resource.Instantiate("Background").GetComponent<SpriteRenderer>().sortingOrder = (int)Define.SortOrder.Backgound;
         Managers.Resource.Instantiate("Collider");
 
+        Time.timeScale = 1;
         yield return new WaitForSecondsRealtime(0.5f);
+        Time.timeScale = 0;
 
-        if (!PhotonNetwork.IsMasterClient)
-            _compeleteLoad = true;
-        yield return null;
+        PlayerController[] pc;
+        while (true)
+        {
+            pc = GameObject.FindObjectsOfType<PlayerController>();
+            if (pc.Length == 2)
+                break;
+            yield return new WaitForSecondsRealtime(0.5f);
+        }
 
-        while (!_compeleteLoad)
-            //다른 컴이 로드가 끝날때까지 대기.
-
-        Managers.Game.SetGameState(GameState.Play);
-    }
-
-    void NetworkLoad()
-    {
-        PlayerController[] pc = GameObject.FindObjectsOfType<PlayerController>();
         foreach(PlayerController player in pc)
         {
             Debug.Log("Player Search : " + player.ToString());
@@ -95,11 +97,27 @@ public class GameScene : BaseScene, IPunObservable
                 break;
             }
         }
+
+        yield return new WaitForSecondsRealtime(0.5f);
         Managers.UI.ClosePopupUI();
         UIGameScene = Managers.UI.ShowSceneUI<UI_GameScene>();
         Debug.Log("LoadStage 완");
 
+        Managers.Game.SetGameState(GameState.Play);
     }
+
+    [PunRPC]
+    public void setCompleteLoad()
+    {
+        Debug.Log(_compeleteLoad);
+        _compeleteLoad++;
+    }
+
+
+    //IEnumerator NetworkLoad()
+    //{
+
+    //}
 
 
     public override void Clear()
@@ -109,20 +127,5 @@ public class GameScene : BaseScene, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        Debug.Log(info.ToString());
-        if (stream.IsWriting)
-        {
-            stream.SendNext(_compeleteLoad);
-            Debug.Log("Send : " + _compeleteLoad);
-
-            //stream.SendNext((int)Managers.Game.CurrentState);
-        }
-        else
-        {
-            _compeleteLoad = (bool)stream.ReceiveNext();
-            Debug.Log("Receive : "+ _compeleteLoad);
-            //Managers.Game.CurrentState = (Define.GameState)((int)stream.ReceiveNext());
-
-        }
     }
 }

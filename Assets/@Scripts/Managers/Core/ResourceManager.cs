@@ -85,6 +85,26 @@ public class ResourceManager
     }
 
 
+    public GameObject NetworkInstantiate(string key, Vector3 position,Transform parent = null, bool pooling = false)
+    {
+        GameObject prefab = NetworkLoad<GameObject>($"{key}");
+        if (prefab == null)
+        {
+            Debug.LogError($"Failed to load prefab : {key}");
+            return null;
+        }
+
+        if (pooling)
+            return Managers.Pool.Pop(prefab);
+
+        GameObject go = PhotonNetwork.Instantiate(prefab.name, position, prefab.transform.rotation);
+
+        go.transform.SetParent(parent);
+        go.name = prefab.name;
+        return go;
+    }
+
+
     public void Destroy(GameObject go)
     {
         if (go == null)

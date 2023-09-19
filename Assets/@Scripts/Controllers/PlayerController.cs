@@ -66,13 +66,16 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     public void Attack()
     {
         Debug.Log("АјАн");
-        GameObject go = Managers.Resource.NetworkInstantiate("Bullet", gameObject.transform, true);
-        go.transform.position = transform.position;
+        GameObject go = Managers.Resource.NetworkInstantiate("Bullet", transform.position,gameObject.transform, true);
     }
 
 
+    [PunRPC]
     public void decreaseHP()
     {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
         if(_hearts == null)
         {
             _hearts =  new GameObject[3];
@@ -91,6 +94,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             Managers.Game.GameResult = gameObject.name + "Lose";
             Managers.Game.SetGameState(Define.GameState.Result);
         }
+
+        _pv.RPC("decreaseHP", RpcTarget.All);
     }
 
 
@@ -105,11 +110,11 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             return;
         if(stream.IsWriting)
         {
-            stream.SendNext((int)CurrentDirection);
+            stream.SendNext(CurrentDirection);
         }
         else
         {
-            Managers.Game.Enemy.CurrentDirection = (Define.Direction)((int)stream.ReceiveNext());
+            Managers.Game.Enemy.CurrentDirection = (Define.Direction)stream.ReceiveNext();
         }
     }
 }

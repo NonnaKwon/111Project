@@ -48,13 +48,11 @@ public class Managers : MonoBehaviourPun
             DontDestroyOnLoad(go);
             s_instance = go.GetComponent<Managers>();
             s_instance._sound.Init();
-            Debug.Log("init");
         }		
 	}
 
     public static void Clear()
     {
-        Debug.Log("클리어");
         Sound.Clear();
         Scene.Clear();
         UI.Clear();

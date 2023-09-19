@@ -1,19 +1,24 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletController : MonoBehaviour
+public class BulletController : MonoBehaviourPun
 {
     Rigidbody2D _rigidbody;
-
+    PhotonView _pv;
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _pv = GetComponent<PhotonView>();
     }
 
     private void FixedUpdate()
     {
-        _rigidbody.MovePosition(_rigidbody.position + Vector2.up * Define.BULLET_SPEED);
+        if(_pv.IsMine)
+            _rigidbody.MovePosition(_rigidbody.position + Vector2.up * Define.BULLET_SPEED);
+        else
+            _rigidbody.MovePosition(_rigidbody.position + Vector2.down * Define.BULLET_SPEED);
     }
 
 
