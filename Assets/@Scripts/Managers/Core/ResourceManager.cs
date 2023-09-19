@@ -1,7 +1,9 @@
 ﻿using DG.Tweening.Plugins.Core.PathCore;
+using Photon.Pun;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -11,6 +13,8 @@ public class ResourceManager
 {
     // 실제 로드한 리소스.
     Dictionary<string, UnityEngine.Object> _resources = new Dictionary<string, UnityEngine.Object>();
+    DefaultPool _pool;
+
 
     #region 리소스 로드
     public T Load<T>(string key) where T : Object
@@ -52,6 +56,35 @@ public class ResourceManager
         return go;
     }
 
+    public T NetworkLoad<T>(string key) where T : Object
+    {
+        if (_pool.ResourceCache.TryGetValue(key, out GameObject resource))
+        {
+            return resource as T;
+        }
+        return null;
+    }
+
+    public GameObject NetworkInstantiate(string key, Transform parent = null, bool pooling = false)
+    {
+        GameObject prefab = NetworkLoad<GameObject>($"{key}");
+        if (prefab == null)
+        {
+            Debug.LogError($"Failed to load prefab : {key}");
+            return null;
+        }
+         
+        if (pooling)
+            return Managers.Pool.Pop(prefab);
+
+ 
+        GameObject go = PhotonNetwork.Instantiate(prefab.name, prefab.transform.position, prefab.transform.rotation);
+        go.transform.SetParent(parent);
+        go.name = prefab.name;
+        return go;
+    }
+
+
     public void Destroy(GameObject go)
     {
         if (go == null)
@@ -59,7 +92,6 @@ public class ResourceManager
 
         if (Managers.Pool.Push(go))
             return;
-        Debug.Log(go);
         Object.Destroy(go);
     }
 
@@ -74,6 +106,7 @@ public class ResourceManager
             loadKey = $"{key}[{key.Replace(".sprite", "")}]";
 
         var asyncOperation = Addressables.LoadAssetAsync<T>(loadKey);
+
         asyncOperation.Completed += (op) =>
         {
             // 캐시 확인.
@@ -117,6 +150,16 @@ public class ResourceManager
                 }
             }
         };
+    }
+
+    public void NetworkLoadAll()
+    {
+        _pool = PhotonNetwork.PrefabPool as DefaultPool;
+        foreach(var op in _resources)
+        {
+            _pool.ResourceCache.Add(op.Key,op.Value as GameObject);
+        }
+        Debug.Log("Photon Resource Pool Complete");
     }
 
     #endregion

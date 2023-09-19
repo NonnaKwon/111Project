@@ -10,6 +10,8 @@ public class Define
     public static float SPEED = 0.2f;
     public static float BULLET_SPEED = 0.3f;
     public static float COOL_TIME = 1f;
+    public static float ENEMY_Y = 11f;
+
 
     #region Enum
 
@@ -62,6 +64,7 @@ public class Define
         Stop
     }
     #endregion
+    
 
 }
 public static class EquipmentUIColors

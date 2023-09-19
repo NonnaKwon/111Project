@@ -33,8 +33,16 @@ public class UI_GameScene : UI_Scene
         GetObject((int)GameObjects.Right).BindEvent(() => Managers.Game.Player.CurrentDirection = Define.Direction.Right);
         GetObject((int)GameObjects.Attack).BindEvent(attackEvent);
         _coolTime = GetObject((int)GameObjects.Attack).GetComponentInChildren<CoolTime>();
-        Managers.Game.Enemy.HP_UI = GetObject((int)GameObjects.OpponentHP);
-        Managers.Game.Player.HP_UI = GetObject((int)GameObjects.MyHP);
+
+        if (Managers.Game.Player != null)
+            Managers.Game.Player.HP_UI = GetObject((int)GameObjects.MyHP);
+        else
+            Debug.Log("Player is Null");
+
+        if (Managers.Game.Enemy != null)
+            Managers.Game.Enemy.HP_UI = GetObject((int)GameObjects.OpponentHP);
+        else
+            Debug.Log("Enemy is Null");
     }
 
     void attackEvent()

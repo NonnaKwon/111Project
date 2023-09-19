@@ -30,6 +30,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         _lobby.PlayerName.text = "Player";
         _connect = true;
         PhotonNetwork.AutomaticallySyncScene = true;
+        Managers.Resource.NetworkLoadAll();
     }
 
 
@@ -112,33 +113,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log(returnCode);
     }
 
-    public static void SyncInGameManagerViewID()
-    {
-        if (PhotonNetwork.IsMasterClient == false)
-        {
-            throw new System.Exception("Only Master CLient can send sync manager view ID event.");
-        }
-
-        PhotonView targetView = GameObject.FindObjectOfType<Managers>().GetComponent<PhotonView>();
-
-        if (PhotonNetwork.AllocateViewID(targetView))
-        {
-            object content = new object[] {
-            targetView.ViewID,
-        };
-
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions()
-            {
-                Receivers = ReceiverGroup.Others,
-            };
-
-            PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendReliable);
-        }
-        else
-        {
-            throw new System.Exception("Failed allocate View ID");
-        }
-    }
 
 
 }

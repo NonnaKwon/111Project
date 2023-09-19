@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviourPun
+public class PlayerController : MonoBehaviourPun, IPunObservable
 {
     public Define.Direction CurrentDirection { get; set; }
     public GameObject HP_UI;
@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviourPun
     GameObject[] _hearts;
     Rigidbody2D _rigidbody;
     int _damage;
+    PhotonView _pv;
+
     void Awake()
     {
         init();
@@ -21,29 +23,50 @@ public class PlayerController : MonoBehaviourPun
         CurrentDirection = Define.Direction.Stop;
         _rigidbody = GetComponent<Rigidbody2D>();
         _damage = 0;
+        _pv = GetComponent<PhotonView>();
     }
 
 
     private void FixedUpdate()
     {
-        switch (CurrentDirection)
+        if (_pv.IsMine)
         {
-            case Define.Direction.Left:
-                _rigidbody.MovePosition(_rigidbody.position + Vector2.left * Define.SPEED);
-                break;
-            case Define.Direction.Right:
-                _rigidbody.MovePosition(_rigidbody.position + Vector2.right * Define.SPEED);
-                break;
-            case Define.Direction.Stop:
-                _rigidbody.MovePosition(_rigidbody.position);
-                break;
+            switch (CurrentDirection)
+            {
+                case Define.Direction.Left:
+                    _rigidbody.MovePosition(_rigidbody.position + Vector2.left * Define.SPEED);
+                    break;
+                case Define.Direction.Right:
+                    _rigidbody.MovePosition(_rigidbody.position + Vector2.right * Define.SPEED);
+                    break;
+                case Define.Direction.Stop:
+                    _rigidbody.MovePosition(_rigidbody.position);
+                    break;
+            }
+
+        }
+        else
+        {
+            switch (CurrentDirection)
+            {
+                case Define.Direction.Left:
+                    _rigidbody.MovePosition(_rigidbody.position + Vector2.right * Define.SPEED);
+                    break;
+                case Define.Direction.Right:
+                    _rigidbody.MovePosition(_rigidbody.position + Vector2.left * Define.SPEED);
+                    break;
+                case Define.Direction.Stop:
+                    _rigidbody.MovePosition(_rigidbody.position);
+                    break;
+            }
+
         }
     }
 
     public void Attack()
     {
         Debug.Log("АјАн");
-        GameObject go = Managers.Resource.Instantiate("Bullet", gameObject.transform, true);
+        GameObject go = Managers.Resource.NetworkInstantiate("Bullet", gameObject.transform, true);
         go.transform.position = transform.position;
     }
 
@@ -76,4 +99,17 @@ public class PlayerController : MonoBehaviourPun
         CurrentDirection = Define.Direction.Stop;
     }
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (Managers.Game.CurrentState != Define.GameState.Play)
+            return;
+        if(stream.IsWriting)
+        {
+            stream.SendNext((int)CurrentDirection);
+        }
+        else
+        {
+            Managers.Game.Enemy.CurrentDirection = (Define.Direction)((int)stream.ReceiveNext());
+        }
+    }
 }

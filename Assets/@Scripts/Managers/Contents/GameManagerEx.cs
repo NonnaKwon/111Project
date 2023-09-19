@@ -12,7 +12,7 @@ public class GameManagerEx
     public string GameResult { get; set; }
 
     public event Action<GameState> OnGameStateChange;
-    private GameState CurrentState;
+    public GameState CurrentState { get; set; }
 
 
     public void Clear()
