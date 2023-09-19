@@ -89,6 +89,7 @@ public class GameScene : BaseScene, IPunObservable
             if (!photonView.IsMine)
             {
                 Managers.Game.Enemy = player;
+                player.gameObject.name = "Enemy";
                 player.transform.position = new Vector3(0, Define.ENEMY_Y, 0);
 
                 SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
@@ -105,19 +106,6 @@ public class GameScene : BaseScene, IPunObservable
 
         Managers.Game.SetGameState(GameState.Play);
     }
-
-    [PunRPC]
-    public void setCompleteLoad()
-    {
-        Debug.Log(_compeleteLoad);
-        _compeleteLoad++;
-    }
-
-
-    //IEnumerator NetworkLoad()
-    //{
-
-    //}
 
 
     public override void Clear()

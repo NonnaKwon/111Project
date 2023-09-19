@@ -95,10 +95,14 @@ public class ResourceManager
         }
 
         if (pooling)
-            return Managers.Pool.Pop(prefab);
+        {
+            GameObject poolObj = Managers.Pool.Pop(prefab);
+            if (key == "Bullet")
+                poolObj.GetComponent<BulletController>().InitPos(position);
+            return poolObj;
+        }
 
         GameObject go = PhotonNetwork.Instantiate(prefab.name, position, prefab.transform.rotation);
-
         go.transform.SetParent(parent);
         go.name = prefab.name;
         return go;

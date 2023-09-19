@@ -3,14 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletController : MonoBehaviourPun
+public class BulletController : MonoBehaviourPun, IPunObservable
 {
     Rigidbody2D _rigidbody;
     PhotonView _pv;
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _pv = GetComponent<PhotonView>();
+    }
+
+    private void Start()
+    {
+        _pv = GetComponent<PhotonView>();        
     }
 
     private void FixedUpdate()
@@ -33,4 +37,15 @@ public class BulletController : MonoBehaviourPun
         Managers.Resource.Destroy(this.gameObject);
     }
 
+    [PunRPC]
+    public void InitPos(Vector3 position)
+    {
+        //if (!PhotonNetwork.IsMasterClient)
+        //    return;
+        gameObject.transform.position = position;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+    }
 }
