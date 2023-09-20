@@ -16,18 +16,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public UI_LobbyScene Lobby { set 
         {
             _lobby = value;
-            _lobby.JoinBtn.BindEvent(() =>
-            {
-                if (!PhotonNetwork.IsConnected)
-                    PhotonNetwork.ConnectUsingSettings();
-                PhotonNetwork.LocalPlayer.NickName = _lobby.PlayerName.text;
-                PhotonNetwork.JoinOrCreateRoom("방" + RoomCount.ToString(), new RoomOptions { MaxPlayers = 2 }, null);
-            });
             _lobby.PlayerName.text = "Player";
         } 
     }
 
-    static int RoomCount = 0;
+    int RoomCount = 0;
     UI_LobbyScene _lobby;
     UI_JoinRoom _room;
     bool _connect;
@@ -51,8 +44,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Success Conneted!");
-        //PhotonNetwork.LocalPlayer.NickName = _lobby.PlayerName.text;
-        //PhotonNetwork.JoinOrCreateRoom("방"+ RoomCount.ToString(), new RoomOptions { MaxPlayers = 2 }, null);
+        _lobby.ConnectState.text = "연결완료!";
+        _lobby.JoinBtn.BindEvent(() =>
+        {
+            PhotonNetwork.LocalPlayer.NickName = _lobby.PlayerName.text;
+            PhotonNetwork.JoinOrCreateRoom("방" + RoomCount.ToString(), new RoomOptions { MaxPlayers = 2 }, null);
+        });
     }
 
     public override void OnJoinedRoom()

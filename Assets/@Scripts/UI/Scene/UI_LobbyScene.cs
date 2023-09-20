@@ -20,11 +20,13 @@ public class UI_LobbyScene : UI_Scene
 
     enum Texts
     {
+        ConnectState
     }
     #endregion
 
 
     public GameObject JoinBtn { get { return GetObject((int)GameObjects.JoinButton); } }
+    public TMP_Text ConnectState { get { return GetText((int)Texts.ConnectState); } }
     public TMP_InputField PlayerName
     { get 
         { 
@@ -38,7 +40,7 @@ public class UI_LobbyScene : UI_Scene
             return false;
 
         BindObject(typeof(GameObjects));
-
+        BindText(typeof(Texts));
         return true;
     }
 
