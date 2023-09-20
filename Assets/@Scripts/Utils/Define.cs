@@ -11,6 +11,8 @@ public class Define
     public static float BULLET_SPEED = 0.3f;
     public static float COOL_TIME = 1f;
     public static float ENEMY_Y = 11f;
+    public static float PLAYER_Y = -7f;
+
 
 
     #region Enum

@@ -62,16 +62,15 @@ public class GameScene : BaseScene, IPunObservable
     IEnumerator LoadStage()
     {
         Managers.UI.ShowPopupUI<UI_Loading>();
-        yield return new WaitForSecondsRealtime(0.5f);
-
+        Time.timeScale = 1;
         Managers.Game.Player = Managers.Resource.NetworkInstantiate("Player").GetOrAddComponent<PlayerController>();
+        yield return new WaitForSecondsRealtime(0.5f);
         //Managers.Game.Enemy = Managers.Resource.NetworkInstantiate("Enemy").GetOrAddComponent<PlayerController>();
         Managers.Resource.Instantiate("Background").GetComponent<SpriteRenderer>().sortingOrder = (int)Define.SortOrder.Backgound;
         Managers.Resource.Instantiate("Collider");
 
-        Time.timeScale = 1;
-        yield return new WaitForSecondsRealtime(1f);
-        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(0.5f);
+        //Time.timeScale = 0;
 
         PlayerController[] pc;
         while (true)
@@ -90,13 +89,15 @@ public class GameScene : BaseScene, IPunObservable
             {
                 Managers.Game.Enemy = player;
                 player.gameObject.name = "Enemy";
-                player.gameObject.layer = (int)Define.Layer.Default;
+                player.GetComponent<Collider2D>().offset = new Vector2(0, 0.2f);
                 player.transform.position = new Vector3(0, Define.ENEMY_Y, 0);
 
                 SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
                 sr.flipY = true;
                 sr.color = new Color(1f,0.5f,0.5f,1f);
-                break;
+            }else
+            {
+                player.transform.position = new Vector3(0, Define.PLAYER_Y, 0);
             }
         }
 

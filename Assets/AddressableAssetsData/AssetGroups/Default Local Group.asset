@@ -42,11 +42,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
-  - m_GUID: 2cea0dfd70de22441b93b42d882c816b
-    m_Address: Enemy
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
   - m_GUID: 70f551e8ef4e28c40a3963f038841f25
     m_Address: Player
     m_ReadOnly: 0

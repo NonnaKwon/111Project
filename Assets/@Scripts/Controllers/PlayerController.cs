@@ -66,8 +66,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void Attack()
     {
-        Debug.Log("АјАн");
-        //GameObject go = Managers.Resource.NetworkInstantiate("Bullet", gameObject.transform, true);
         if (_pv.IsMine)
         {
             GameObject go = Managers.Resource.NetworkInstantiate("Bullet", transform.position, gameObject.transform);
