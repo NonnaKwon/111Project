@@ -48,7 +48,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         _lobby.JoinBtn.BindEvent(() =>
         {
             PhotonNetwork.LocalPlayer.NickName = _lobby.PlayerName.text;
-            PhotonNetwork.JoinOrCreateRoom("¹æ" + RoomCount.ToString(), new RoomOptions { MaxPlayers = 2 }, null);
+            Debug.Log(RoomCount);
+            PhotonNetwork.JoinOrCreateRoom("¹æ", new RoomOptions { MaxPlayers = 2 }, null);
         });
     }
 
