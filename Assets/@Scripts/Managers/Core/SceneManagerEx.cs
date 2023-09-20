@@ -9,7 +9,6 @@ public class SceneManagerEx
 {
     public BaseScene CurrentScene { get { return GameObject.FindObjectOfType<BaseScene>(); } }
 
-    [PunRPC]
     public void LoadScene(Define.Scene type, Transform parents = null)
     {
         Managers.Clear();
@@ -22,6 +21,12 @@ public class SceneManagerEx
             }
             PhotonNetwork.LoadLevel(GetSceneName(type));
         }
+    }
+
+    public void LoadScenePersonal(Define.Scene type, Transform parents = null)
+    {
+        Managers.Clear();
+        PhotonNetwork.LoadLevel(GetSceneName(type));
     }
 
     string GetSceneName(Define.Scene type)

@@ -49,7 +49,6 @@ public class GameScene : BaseScene, IPunObservable
                 CoroutineManager.StartCoroutine(LoadStage());
                 break;
             case GameState.Play:
-                //CoroutineManager.StartCoroutine(NetworkLoad());
                 break;
             case GameState.Die:
                 break;
@@ -97,6 +96,7 @@ public class GameScene : BaseScene, IPunObservable
                 sr.color = new Color(1f,0.5f,0.5f,1f);
             }else
             {
+                player.gameObject.layer = (int)Define.Layer.Player;
                 player.transform.position = new Vector3(0, Define.PLAYER_Y, 0);
             }
         }
@@ -108,6 +108,8 @@ public class GameScene : BaseScene, IPunObservable
 
         Managers.Game.SetGameState(GameState.Play);
     }
+
+
 
 
     public override void Clear()

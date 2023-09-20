@@ -1,4 +1,5 @@
 using Data;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,15 @@ public class LobbyScene : BaseScene
         base.Init();
 
         SceneType = Define.Scene.LobbyScene;
+
+        GameObject go = GameObject.Find("@Network");
+        if (go == null)
+        {
+            go = new GameObject("@Network");
+            go.AddComponent<NetworkManager>();
+        }
+        go.GetComponent<NetworkManager>().Lobby = Managers.UI.ShowSceneUI<UI_LobbyScene>();
+
     }
 
     public override void Clear()

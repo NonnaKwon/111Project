@@ -99,8 +99,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             Managers.Game.SetGameState(Define.GameState.Result);
         }
 
-        //if(_pv.IsMine)
-        //    _pv.RPC("decreaseHP", RpcTarget.Others);
+        if(!_pv.IsMine)
+            _pv.RPC("decreaseHP", RpcTarget.Others);
     }
 
 

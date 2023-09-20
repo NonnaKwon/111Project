@@ -31,7 +31,8 @@ public class BulletController : MonoBehaviourPun, IPunObservable
         PlayerController pc = collision.gameObject.GetComponent<PlayerController>();
         if(pc != null)
         {
-            pc.decreaseHP();
+            if(pc.gameObject.layer != (int)Define.Layer.Player)
+                pc.decreaseHP();
         }
 
         Managers.Resource.Destroy(this.gameObject);
