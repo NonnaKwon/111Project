@@ -84,7 +84,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        Debug.Log($"플레이어 {otherPlayer.NickName} 가 방에 참가.");
+        Debug.Log($"플레이어 {otherPlayer.NickName} 가 방에서 나감.");
 
         //룸 플레이어 업데이트
         RoomUpdate();
