@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,7 +9,8 @@ public class UI_JoinRoom : UI_Popup
     #region Enum
     enum GameObjects
     {
-        StartButton
+        StartButton,
+        ExitButton
     }
 
     enum Buttons
@@ -25,6 +27,7 @@ public class UI_JoinRoom : UI_Popup
 
 
     public GameObject StartBtn { get { return GetObject((int)GameObjects.StartButton); } }
+    public GameObject ExitBtn { get { return GetObject((int)GameObjects.ExitButton); } }
     public TMP_Text Player1 { get { return GetText((int)Texts.Player1); } }
     public TMP_Text Player2 { get { return GetText((int)Texts.Player2); } }
 
@@ -35,6 +38,11 @@ public class UI_JoinRoom : UI_Popup
 
         BindObject(typeof(GameObjects));
         BindText(typeof(Texts));
+        GetObject((int)GameObjects.ExitButton).BindEvent(()=>
+        {
+            PhotonNetwork.LeaveRoom();
+            Managers.UI.ClosePopupUI(this);
+        });
 
         return true;
     }

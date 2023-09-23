@@ -100,6 +100,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
              _room.Player2.text = "Player2 : " + PhotonNetwork.PlayerList[1].NickName;
              _room.StartBtn.BindEvent(Managers.Game.StartGame);
         }
+        else
+        {
+            _room.Player2.text = "Player2 : None";
+        }
     }
 
     public void StartGame()
